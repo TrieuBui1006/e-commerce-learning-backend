@@ -3,6 +3,7 @@ const { requireSignin } = require('./auth')
 const User = require('../models/user')
 const router = require('../routes/auth')
 
+// Find user by id
 exports.userById = (req, res, next, id) => {
   User.findById(id).exec((err, user) => {
     if (err || !user) {

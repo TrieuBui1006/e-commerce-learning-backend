@@ -1,7 +1,7 @@
-const { requireSignin } = require('./auth')
-
 const User = require('../models/user')
-const router = require('../routes/auth')
+const { Order } = require('../models/order')
+
+const { errorHandler } = require('../helpers/dbErrorHandler')
 
 // Find user by id
 exports.userById = (req, res, next, id) => {
@@ -115,4 +115,18 @@ exports.addOrderToUserHistory = (req, res, next) => {
       next()
     }
   )
+}
+
+exports.purchaseHistory = (req, res) => {
+  Order.find({ user: req.profile._id })
+    .populate('user', '_id name')
+    .sort({ createdAt: 'desc' })
+    .exec((err, orders) => {
+      if (err) {
+        return res.status(400).json({
+          error: errorHandler(err),
+        })
+      }
+      res.json(orders)
+    })
 }

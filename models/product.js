@@ -26,6 +26,10 @@ const productSchema = new mongoose.Schema(
       required: true,
       maxlength: 2000,
     },
+    author: {
+      type: ObjectId,
+      ref: 'Author',
+    },
     price: {
       type: Number,
       trim: true,
@@ -52,8 +56,16 @@ const productSchema = new mongoose.Schema(
       required: false,
       type: Boolean,
     },
-    rating: { type: Number, default: 0, required: true },
-    numReviews: { type: Number, default: 0, required: true },
+    rating: {
+      type: Number,
+      default: 0,
+      required: true,
+    },
+    numReviews: {
+      type: Number,
+      default: 0,
+      required: true,
+    },
     reviews: [reviewSchema],
   },
   { timestamps: true }

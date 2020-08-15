@@ -31,7 +31,6 @@ const OrderSchema = new mongoose.Schema(
         'Cancelled',
       ], // enum means string objects
     },
-    updated: Date,
     user: { type: ObjectId, ref: 'User' },
   },
   { timestamps: true }

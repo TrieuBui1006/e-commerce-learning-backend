@@ -1,6 +1,7 @@
 const mongoose = require('mongoose')
 const crypto = require('crypto')
 const { v1: uuidv1 } = require('uuid')
+const { ObjectId } = mongoose.Schema
 
 const userSchema = new mongoose.Schema(
   {
@@ -29,6 +30,14 @@ const userSchema = new mongoose.Schema(
       type: Number,
       default: 0,
     },
+    whishlist: [
+      {
+        product: {
+          type: ObjectId,
+          ref: 'Product',
+        },
+      },
+    ],
     history: {
       type: Array,
       default: [],

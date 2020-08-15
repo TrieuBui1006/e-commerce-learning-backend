@@ -8,9 +8,6 @@ const authorSchema = new mongoose.Schema({
     maxlength: 32,
     unique: true,
   },
-  birthDate: {
-    type: Date,
-  },
   birthPlace: {
     type: String,
   },

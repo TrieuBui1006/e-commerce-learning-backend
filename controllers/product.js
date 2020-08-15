@@ -59,7 +59,7 @@ exports.create = (req, res) => {
     // 1mb = 1000000
 
     if (files.photo) {
-      // console.log('FILES PHOTO: ', files.photo)
+      // console.log('FILES PHOTO: ', files)
       if (files.photo.size > 1000000) {
         return res.status(400).json({
           error: 'Image should be less than 1Mb size.',

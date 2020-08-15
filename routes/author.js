@@ -1,12 +1,38 @@
 const express = require('express')
 const router = express.Router()
+const multer = require('multer')
 
 const { requireSignin, isAuth, isAdmin } = require('../controllers/auth')
 const { userById } = require('../controllers/user')
-const { create } = require('../controllers/author')
+const { create, list } = require('../controllers/author')
+
+let storage = multer.diskStorage({
+  destination: function (req, file, callback) {
+    // console.log('file', file)
+    callback(null, './Uploads/')
+  },
+  filename: function (req, file, callback) {
+    // console.log("multer file:", file);
+    callback(null, file.originalname)
+  },
+})
+let maxSize = 1000000 * 1000
+let upload = multer({
+  storage: storage,
+  limits: {
+    fileSize: maxSize,
+  },
+})
 
 // router.get('/category/:categoryId', read)
-router.post('/author/create/:userId', requireSignin, isAuth, isAdmin, create)
+router.post(
+  '/author/create/:userId',
+  requireSignin,
+  isAuth,
+  isAdmin,
+  upload.array('photos', 6),
+  create
+)
 // router.put(
 //   '/category/:categoryId/:userId',
 //   requireSignin,
@@ -22,7 +48,7 @@ router.post('/author/create/:userId', requireSignin, isAuth, isAdmin, create)
 //   isAdmin,
 //   remove
 // )
-// router.get('/authors', list)
+router.get('/authors', list)
 
 // router.param('authorId', categoryById)
 router.param('userId', userById)

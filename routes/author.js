@@ -4,7 +4,13 @@ const multer = require('multer')
 
 const { requireSignin, isAuth, isAdmin } = require('../controllers/auth')
 const { userById } = require('../controllers/user')
-const { create, list } = require('../controllers/author')
+const {
+  create,
+  list,
+  read,
+  authorById,
+  uploadImage,
+} = require('../controllers/author')
 
 let storage = multer.diskStorage({
   destination: function (req, file, callback) {
@@ -24,14 +30,14 @@ let upload = multer({
   },
 })
 
-// router.get('/category/:categoryId', read)
+router.get('/author/:authorId', read)
 router.post(
-  '/author/create/:userId',
+  '/author/upload/:userId',
   requireSignin,
   isAuth,
   isAdmin,
   upload.array('photos', 6),
-  create
+  uploadImage
 )
 // router.put(
 //   '/category/:categoryId/:userId',
@@ -50,7 +56,7 @@ router.post(
 // )
 router.get('/authors', list)
 
-// router.param('authorId', categoryById)
+router.param('authorId', authorById)
 router.param('userId', userById)
 
 module.exports = router

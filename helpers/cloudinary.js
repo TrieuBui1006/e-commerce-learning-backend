@@ -13,14 +13,14 @@ function upload(file) {
   return new Q.Promise((resolve, reject) => {
     cloudinary.v2.uploader.upload(
       file,
-      { width: 50, height: 50 },
+      { width: 120, height: 200 },
       (err, res) => {
         if (err) {
           console.log('cloudinary err:', err)
           reject(err)
         } else {
           console.log('cloudinary res:', res)
-          return resolve(res.url)
+          return resolve({ url: res.url, _id: res.public_id })
         }
       }
     )

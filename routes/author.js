@@ -14,20 +14,24 @@ const {
 
 let storage = multer.diskStorage({
   destination: function (req, file, callback) {
-    // console.log('file', file)
+    console.log('file', file)
     callback(null, './Uploads/')
   },
   filename: function (req, file, callback) {
-    // console.log("multer file:", file);
+    console.log('multer file:', file)
     callback(null, file.originalname)
   },
+  // fileFilter: (req, file, cb) => {
+  //   const ext = path.extname(file.originalname)
+  //   if (ext !== '.jpg' || ext !== '.png') {
+  //     return cb(res.status(400).end('only jpg, png are allowed'), false)
+  //   }
+  //   cb(null, true)
+  // },
 })
-let maxSize = 1000000 * 1000
+
 let upload = multer({
   storage: storage,
-  limits: {
-    fileSize: maxSize,
-  },
 })
 
 router.get('/author/:authorId', read)
@@ -36,7 +40,7 @@ router.post(
   requireSignin,
   isAuth,
   isAdmin,
-  upload.array('photos', 6),
+  upload.single('file'),
   uploadImage
 )
 // router.put(

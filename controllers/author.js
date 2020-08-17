@@ -22,13 +22,14 @@ exports.authorById = (req, res, next, id) => {
 
 //upload image
 exports.uploadImage = async (req, res) => {
+  console.log(req.file)
   try {
-    if (!req.files || _.isEmpty(req.files)) {
+    if (!req.file || _.isEmpty(req.file)) {
       return res.status(400).json({
         error: 'no file uploaded',
       })
     }
-    const { path } = req.files[0]
+    const { path } = req.file
     try {
       const newPath = await upload(path)
       return res.json(newPath)

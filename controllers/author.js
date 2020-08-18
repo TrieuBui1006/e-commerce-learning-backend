@@ -22,7 +22,7 @@ exports.authorById = (req, res, next, id) => {
 
 //upload image
 exports.uploadImage = async (req, res) => {
-  console.log(req.file)
+  // console.log(req.file)
   try {
     if (!req.file || _.isEmpty(req.file)) {
       return res.status(400).json({

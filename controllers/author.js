@@ -2,9 +2,8 @@ const Author = require('../models/author')
 const _ = require('underscore')
 const fs = require('fs')
 const { errorHandler } = require('../helpers/dbErrorHandler')
-const { async } = require('q')
 
-const upload = require('../helpers/cloudinary').upload
+const upload = require('../helpers/cloudinaryUpload').upload
 
 // find author by id
 exports.authorById = (req, res, next, id) => {
@@ -32,6 +31,7 @@ exports.uploadImage = async (req, res) => {
     const { path } = req.file
     try {
       const newPath = await upload(path)
+      fs.unlinkSync(path)
       return res.json(newPath)
     } catch (error) {
       return res.status(400).json({

@@ -10,6 +10,7 @@ const {
   read,
   authorById,
   uploadImage,
+  remove,
 } = require('../controllers/author')
 
 let storage = multer.diskStorage({
@@ -47,6 +48,8 @@ router.post(
   upload.single('file'),
   uploadImage
 )
+router.post('/author/create/:userId', requireSignin, isAuth, isAdmin, create)
+
 // router.put(
 //   '/category/:categoryId/:userId',
 //   requireSignin,
@@ -55,13 +58,13 @@ router.post(
 //   update
 // )
 
-// router.delete(
-//   '/category/:categoryId/:userId',
-//   requireSignin,
-//   isAuth,
-//   isAdmin,
-//   remove
-// )
+router.delete(
+  '/category/:authorId/:userId',
+  requireSignin,
+  isAuth,
+  isAdmin,
+  remove
+)
 router.get('/authors', list)
 
 router.param('authorId', authorById)

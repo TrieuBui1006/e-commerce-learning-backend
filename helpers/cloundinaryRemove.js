@@ -3,7 +3,7 @@ const _ = require('underscore')
 
 const Q = require('q')
 
-function remove(image_id) {
+function destroy(image_id) {
   cloudinary.config({
     cloud_name: process.env.CLOUD_NAME,
     api_key: process.env.CLOUDINARY_API_KEY,
@@ -23,4 +23,4 @@ function remove(image_id) {
   })
 }
 
-module.exports.upload = remove
+module.exports.destroy = destroy

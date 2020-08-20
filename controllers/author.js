@@ -1,8 +1,6 @@
 const Author = require('../models/author')
 const _ = require('underscore')
 const fs = require('fs')
-const { errorHandler } = require('../helpers/dbErrorHandler')
-const { async } = require('q')
 
 const upload = require('../helpers/cloudinaryUpload').upload
 const destroy = require('../helpers/cloundinaryRemove').destroy
@@ -21,7 +19,7 @@ exports.authorById = (req, res, next, id) => {
   })
 }
 
-//upload image
+//upload author photo
 exports.uploadImage = async (req, res) => {
   // console.log(req.file)
   try {
@@ -74,6 +72,46 @@ exports.create = async (req, res, next) => {
     })
 
     const data = await newAuthor.save()
+
+    res.json(data)
+  } catch (err) {
+    return res.status(500).json({
+      error: 'Server Error',
+    })
+  }
+}
+
+// update author
+exports.update = async (req, res, next) => {
+  const { name, bio, birthPlace, photos } = req.body
+
+  let product = req.product
+
+  if (!name) {
+    return res.status(400).json({
+      error: 'Author must have name',
+    })
+  }
+
+  try {
+    let author = await Author.findOne({ _id: product._id })
+
+    if (!author) {
+      return res.status(400).json({
+        error: 'Author does not exist',
+      })
+    }
+
+    const fields = {
+      name: name,
+      bio: bio || '',
+      birthPlace: birthPlace || '',
+      photos: photos || [],
+    }
+
+    product = _.extend(product, fields)
+
+    const data = await product.save()
 
     res.json(data)
   } catch (err) {

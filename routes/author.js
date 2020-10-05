@@ -41,6 +41,7 @@ let upload = multer({
 })
 
 router.get('/author/:authorId', read)
+router.post('/author/create/:userId', requireSignin, isAuth, isAdmin, create)
 router.post(
   '/author/upload/:userId',
   requireSignin,
@@ -49,7 +50,6 @@ router.post(
   upload.single('file'),
   uploadImage
 )
-router.post('/author/create/:userId', requireSignin, isAuth, isAdmin, create)
 router.put('/author/:authorId/:userId', requireSignin, isAuth, isAdmin, update)
 router.delete(
   '/category/:authorId/:userId',

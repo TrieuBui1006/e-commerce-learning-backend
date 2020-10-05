@@ -21,7 +21,6 @@ exports.authorById = (req, res, next, id) => {
 
 //upload author photo
 exports.uploadImage = async (req, res) => {
-  // console.log(req.file)
   try {
     if (!req.file || _.isEmpty(req.file)) {
       return res.status(400).json({
@@ -46,7 +45,9 @@ exports.uploadImage = async (req, res) => {
 }
 
 // create author
-exports.create = async (req, res, next) => {
+exports.create = async (req, res) => {
+  console.log(req.body)
+
   const { name, bio, birthPlace, photos } = req.body
 
   if (!name) {
@@ -129,8 +130,8 @@ exports.remove = async (req, res) => {
   try {
     let removeImage = async (id) => await destroy(id)
     for (const photo of photos) {
-      const { public_id } = photo
-      await removeImage(public_id)
+      const { _id } = photo
+      await removeImage(_id)
     }
 
     await Author.findOneAndRemove({ _id: author._id })

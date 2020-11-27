@@ -46,7 +46,7 @@ exports.uploadImage = async (req, res) => {
 
 // create author
 exports.create = async (req, res) => {
-  console.log(req.body)
+  //console.log(req.body)
 
   const { name, bio, birthPlace, photos } = req.body
 
@@ -86,7 +86,7 @@ exports.create = async (req, res) => {
 exports.update = async (req, res, next) => {
   const { name, bio, birthPlace, photos } = req.body
 
-  let product = req.product
+  let authorToUpdate = req.author
 
   if (!name) {
     return res.status(400).json({
@@ -95,7 +95,7 @@ exports.update = async (req, res, next) => {
   }
 
   try {
-    let author = await Author.findOne({ _id: product._id })
+    let author = await Author.findOne({ _id: authorToUpdate._id })
 
     if (!author) {
       return res.status(400).json({
@@ -110,9 +110,9 @@ exports.update = async (req, res, next) => {
       photos: photos || [],
     }
 
-    product = _.extend(product, fields)
+    author = _.extend(author, fields)
 
-    const data = await product.save()
+    const data = await author.save()
 
     res.json(data)
   } catch (err) {
